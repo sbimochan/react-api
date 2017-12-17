@@ -1,7 +1,16 @@
 import React, { Component } from 'react';
 
+function User(props) {
+  return <h1>Posted By:{props.user.firstName}</h1>
+}
+function Description(props) {
+  return <article>{props.description}</article>
+}
+function Date(props) {
+  return <p>{props.date}</p>
+}
 class Todo extends Component {
-todo = {
+  todo = {
     "data": [
       {
         "id": 31,
@@ -140,16 +149,17 @@ todo = {
   render() {
     return (
       <div className="todo-lists">
-   
+
         {this.todo.data.map((data, index) => (
           <div>
-            <h1>Posted By: {data.user.firstName}</h1>
-            <article>{data.description}</article>
-            <p>{data.createdAt}</p>
+            <User user={data.user} />
+            <Description description={data.description} />
+            <Date date={data.createdAt} />
             <b>Tags:</b>
             {data.tags.map((tag, index) => (
               <p>{tag.tagName}</p>
             ))}
+            {/* <Tags tags={data.tags}/> */}
           </div>
         ))}
       </div>

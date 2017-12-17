@@ -24,11 +24,6 @@ class Todo extends Component {
   render() {
     return (
       <div className="todo-lists">
-        {JSON.stringify(this.state.todoList)}
-        {console.log(this.state.todoList)
-        }
-        {/* {todo = this.getTodos()} */}
-
         {this.state.todoList.map((data, index) => (
           <div>
             <h1>Posted By: {data.user.firstName}</h1>
