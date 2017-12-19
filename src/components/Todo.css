@@ -1,3 +1,10 @@
+.header{
+  padding:20px;
+  background: black;
+  color:white;
+  font-size: 20px;
+  text-align: center;
+}
 .todo-lists{
   position:relative;
 }
@@ -9,4 +16,74 @@
   margin:20px;
   padding:20px;
   display: none;
+}
+.button {
+    background-color: #337ab7;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.btn-danger{
+  background-color: #d9534f;
+}
+.btn-warning{
+  background-color: #5bc0de;
+}
+.todoFrame{
+  border:1px solid grey;
+  margin:20px;
+  padding:20px;
+  box-shadow: 5px 10px #888888;
+}
+.searchBar{
+  margin:none 30px 30px 30px;
+  background: whitesmoke;
+  padding:50px;
+  font-size: 20px;
+}
+#searchInputBox{
+      width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 20px;
+}
+.createForm{
+  background: #eee;
+  padding:5px 50px 20px 50px;;
+}
+.tags{
+  margin:30px;
+}
+.todoCount{
+  padding-top:10px;
+  padding-left:50px;
+  font-size: 20px;
+}
+.badge{
+    position:absolute;
+  font-size:25px;
+  font-family:"Roboto","Helvetica","Arial",sans-serif;
+  font-weight:600;
+
+  text-align:center;
+  line-height:42px;
+
+  background:#ff4081;
+  color:white;
+  
+  width:42px;
+  height:42px;           
+  margin-left:10px;
+  border-radius:50%;
 }

@@ -14,7 +14,9 @@ class Delete extends Component {
   handleDelete(event) {
     event.preventDefault();
     let todoId = event.target.value;
-    deleteTodo('users/3/todo/', todoId).then(() => fetchPages('users/3/todo').then(todoList => {
+    deleteTodo('users/3/todo/', todoId)
+    .then(() => fetchPages('users/3/todo')
+    .then(todoList => {
       this
         .props
         .onDeleteTodo(todoList)
@@ -23,7 +25,7 @@ class Delete extends Component {
 
   render() {
     return (
-      <button value={this.props.data} onClick={this.handleDelete}>Delete Todo</button>
+      <button className="button btn-danger"value={this.props.data} onClick={this.handleDelete}>Delete Todo</button>
     );
   }
 }

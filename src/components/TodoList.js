@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import Delete from './Delete';
 import Edit from './Edit';
+import './Todo.css';
 
 function User(props) {
-  return <h1>Posted By:{props.user.firstName + ' ' + props.user.lastName}</h1>
+  return <div> <em>Posted By:{props.user.firstName + ' ' + props.user.lastName}</em></div>
 }
 function Description(props) {
   return <article>{props.description}</article>
@@ -26,15 +27,15 @@ class TodoList extends Component {
 
   render() {
     return (
-      <div>
+      <div >
         {this
           .props
           .todoList
           .map((data, index) => (
-            <div>
-              <User user={data.user} key={data.user.id}/>
+            <div className="todoFrame">
               <Description description={data.description} key={data.id}/>
               <Date date={data.createdAt}/>
+              <User user={data.user} key={data.user.id}/>
               <Delete
                 data={data.id}
                 onDeleteTodo={todoList => {

@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {addTodo, fetchPages} from '../utils/api';
+import './Todo.css';
 
 class Create extends Component {
   constructor(props) {
@@ -32,14 +33,15 @@ class Create extends Component {
 
   render() {
     return (
-      <div>
+      <div class="createForm">
         <h1>Create todo</h1>
         <form onSubmit={this.handleSubmit}>
-          <div>Todo:<input
-            type="text"
+          <div>Todo:<textarea rows="8"
+            type="text" id="searchInputBox"
             name="description"
             value={this.state.description}
             onChange={this.handleInputChange}/></div>
+          <div className="tags">
           <input type="checkbox" id="1" id="tags"/>
           <label for="person">person</label>
           <input type="checkbox" id="2" id="tags"/>
@@ -48,7 +50,8 @@ class Create extends Component {
           <label for="vehicle">vehicle</label>
           <input type="checkbox" id="4" id="tags"/>
           <label for="building">building</label>
-          <input type="submit" value="shoot"/>
+          </div>
+          <input type="submit" className="button" value="shoot"/>
         </form>
       </div>
     );

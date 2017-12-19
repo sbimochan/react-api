@@ -42,7 +42,6 @@ class Todo extends Component {
     this.setState({todoList: todoList});
   }
   editTodo(todoId) {
-    // console.log('onEditTodo',this);
     this.setState({editTodoId: todoId});
   }
   handleUpdateChange(event) {
@@ -56,14 +55,19 @@ class Todo extends Component {
     let formatData = {
       "description": this.state.description
     }
-
-    updateTodo('users/3/todo/', this.state.editTodoId, formatData).then(() => fetchPages('users/3/todo'));
+    updateTodo('users/3/todo/', this.state.editTodoId, formatData)
+    .then(() => fetchPages('users/3/todo').then(todoList =>{
+      this.setState(function(){
+        return {todoList:todoList};
+      })
+    }));
   }
 
   render() {
     return (
 
-      <div className="todo-lists">
+      <div>
+        <div className="header">Todo-lists</div>
         <Search
           onSearchTodo={todoList => {
           this
@@ -88,12 +92,14 @@ class Todo extends Component {
                 type="text"
                 id="todoBox"
                 name="description"
-                value={this.state.description}
+                
                 onChange={this.handleUpdateChange}
                 editTodo={this.editTodo}/></div>
           </form>
         </div>
-        <p>Todo count:{this.state.todoList.length}</p>
+        <div className="todoCount">
+        Todo count:<span className="badge">{this.state.todoList.length}</span>
+        </div>
         <TodoList
           editTodo={this.editTodo}
           todoList={this.state.todoList}

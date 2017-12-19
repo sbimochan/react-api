@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {searchTodo} from '../utils/api';
+import './Todo.css';
 
 class Search extends Component {
   constructor(props) {
@@ -26,10 +27,10 @@ class Search extends Component {
   render() {
 
     return (
-      <div>
+      <div className="searchBar">
         <label for="searchbar">Search todo
         </label>
-        <input
+        <input id="searchInputBox"
           type="text"
           name="searchbar"
           onChange={this.handleSearch}
