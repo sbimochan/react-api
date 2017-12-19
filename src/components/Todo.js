@@ -1,75 +1,103 @@
-import React, { Component } from 'react';
-import { fetchPages } from '../utils/api';
-import { deleteTodo } from '../utils/api';
+import React, {Component} from 'react';
+import {fetchPages} from '../utils/api';
 import Create from './Create';
-
-function User(props) {
-  return <h1>Posted By:{props.user.firstName 
-    +' '+props.user.lastName}</h1>
-}
-function Description(props) {
-  return <article>{props.description}</article>
-}
-function Date(props) {
-  return <p>{props.date}</p>
-}
+import Search from './Search';
+import './Todo.css';
+import TodoList from './TodoList';
+import {updateTodo} from '../utils/api';
 
 class Todo extends Component {
   constructor(props) {
     super(props);
     this.state = {
       todoList: [],
-      deleteTodo:''
-    }
-    this.handleDelete = this.handleDelete.bind(this);
+      "description": '',
+      editTodoId: null
+    };
+    this.onDeleteTodo = this
+      .onDeleteTodo
+      .bind(this);
+    this.editTodo = this
+      .editTodo
+      .bind(this);
+    this.handleUpdateChange = this
+      .handleUpdateChange
+      .bind(this);
+    this.handleUpdate = this
+      .handleUpdate
+      .bind(this);
+
   }
 
   componentDidMount() {
     //AJAX
-    fetchPages('users/3/todo')
-      .then(todoList => {
-        this.setState(function () {
-          return {
-            todoList: todoList
-          }
+    fetchPages('users/3/todo').then(todoList => {
+      this
+        .setState(function () {
+          return {todoList: todoList}
         })
-      });
+    });
   }
-  handleDelete(event){
+  onDeleteTodo(todoList) {
+    this.setState({todoList: todoList});
+  }
+  editTodo(todoId) {
+    // console.log('onEditTodo',this);
+    this.setState({editTodoId: todoId});
+  }
+  handleUpdateChange(event) {
+    const target = event.target;
+    const value = target.value;
+    this.setState({"description": value})
+  }
+
+  handleUpdate(event) {
     event.preventDefault();
-    let todoId = event.target.value;
-    deleteTodo('users/3/todo/', todoId).then(
-      () => fetchPages('users/3/todo')
-    );
+    let formatData = {
+      "description": this.state.description
+    }
+
+    updateTodo('users/3/todo/', this.state.editTodoId, formatData).then(() => fetchPages('users/3/todo'));
   }
- 
+
   render() {
     return (
-      
+
       <div className="todo-lists">
-        <Create onUpdateTodo={todoList => {
-          this.setState(function () {
-            return {
-              todoList: todoList
-            }
-          })
+        <Search
+          onSearchTodo={todoList => {
+          this
+            .setState(function () {
+              return {todoList: todoList}
+            })
         }}/>
+        <Create
+          onUpdateTodo={todoList => {
+          this
+            .setState(function () {
+              return {todoList: todoList}
+            })
+        }}/>
+        <div id="todoEditBox">
+
+          <h1>Update todo</h1>
+          <form onSubmit={this.handleUpdate}>
+            <div>Todo:
+
+              <input
+                type="text"
+                id="todoBox"
+                name="description"
+                value={this.state.description}
+                onChange={this.handleUpdateChange}
+                editTodo={this.editTodo}/></div>
+          </form>
+        </div>
         <p>Todo count:{this.state.todoList.length}</p>
-        {this.state.todoList.map((data, index) => (
-          <div>
-            <User user={data.user} key={data.user.id}/>
-            <Description description={data.description} key={data.id}/>
-            <Date date={data.createdAt} />
-            <button value={data.id} onClick={this.handleDelete}>Delete Todo</button>
-            <b>Tags:</b>
-            {data.tags.map((tag, index) => (
-              <p>{tag.tagName}</p>
-            ))}
-          </div>
-        ))}
-        
-      
-        
+        <TodoList
+          editTodo={this.editTodo}
+          todoList={this.state.todoList}
+          onDeleteTodo={this.onDeleteTodo}/>
       </div>
     )
   }

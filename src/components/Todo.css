@@ -1,0 +1,12 @@
+.todo-lists{
+  position:relative;
+}
+#todoEditBox{
+  position: absolute;
+  top:100px;
+  left:400px;
+  background: orange;
+  margin:20px;
+  padding:20px;
+  display: none;
+}

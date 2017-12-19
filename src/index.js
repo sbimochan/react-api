@@ -5,6 +5,5 @@ import Todo from './components/Todo';
 import registerServiceWorker from './registerServiceWorker';
 
 
-ReactDOM.render(<Todo
-/>, document.getElementById('root'));
+ReactDOM.render( < Todo /> , document.getElementById('root'));
 registerServiceWorker();
