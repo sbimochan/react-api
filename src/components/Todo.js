@@ -1,12 +1,16 @@
-import React, {Component} from 'react';
-import {fetchPages} from '../services/api';
+/**Global imports */
+import React from 'react';
+import {Component} from 'react';
+
+/**Local imports */
+import './Todo.css';
 import Create from './Create';
 import Search from './Search';
-import './Todo.css';
 import TodoList from './TodoList';
+import {fetchPages} from '../services/api';
 import {updateTodo} from '../services/api';
 
-class Todo extends Component {
+export default class Todo extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -14,18 +18,10 @@ class Todo extends Component {
       "description": '',
       editTodoId: null
     };
-    this.onDeleteTodo = this
-      .onDeleteTodo
-      .bind(this);
-    this.editTodo = this
-      .editTodo
-      .bind(this);
-    this.handleUpdateChange = this
-      .handleUpdateChange
-      .bind(this);
-    this.handleUpdate = this
-      .handleUpdate
-      .bind(this);
+    this.onDeleteTodo = this.onDeleteTodo.bind(this);
+    this.editTodo = this.editTodo.bind(this);
+    this.handleUpdateChange = this.handleUpdateChange.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
 
   }
 
@@ -38,12 +34,15 @@ class Todo extends Component {
         })
     });
   }
+
   onDeleteTodo(todoList) {
     this.setState({todoList: todoList});
   }
+
   editTodo(todoId) {
     this.setState({editTodoId: todoId});
   }
+  
   handleUpdateChange(event) {
     const target = event.target;
     const value = target.value;
@@ -94,7 +93,7 @@ class Todo extends Component {
                 name="description"
                 
                 onChange={this.handleUpdateChange}
-                editTodo={this.editTodo}/></div>
+                /></div>
           </form>
         </div>
         <div className="todoCount">
@@ -108,5 +107,3 @@ class Todo extends Component {
     )
   }
 }
-
-export default Todo;

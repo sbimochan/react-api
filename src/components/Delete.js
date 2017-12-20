@@ -1,25 +1,26 @@
-import React, {Component} from 'react';
+/**Global imports */
+import React from 'react';
+import {Component} from 'react';
+
+/**Local imports */
 import {deleteTodo, fetchPages} from '../services/api'
 
-class Delete extends Component {
+export default class Delete extends Component {
   constructor(props) {
     super(props);
     this.state = {
       deleteTodo: ''
     }
-    this.handleDelete = this
-      .handleDelete
-      .bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
+  
   handleDelete(event) {
     event.preventDefault();
     let todoId = event.target.value;
     deleteTodo('users/3/todo/', todoId)
     .then(() => fetchPages('users/3/todo')
     .then(todoList => {
-      this
-        .props
-        .onDeleteTodo(todoList)
+      this.props.onDeleteTodo(todoList)
     }));
   }
 
@@ -29,5 +30,3 @@ class Delete extends Component {
     );
   }
 }
-
-export default Delete;

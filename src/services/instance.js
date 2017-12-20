@@ -1,10 +1,11 @@
+/**Global imports */
 import * as Axios from 'axios';
 import * as HttpStatus from 'http-status-codes';
 
-let accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTUxMzc1MzM3MSwiZXhwIjoxNTEzNzU1MTcxfQ.iK2s9dhBdPZ07l2JDpQQ0t5Qarus6XhRbCkFj9o-NM4';
-let refreshToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTUxMzc1MTQ2NCwiZXhwIjoxNTEzNzUxODg0fQ.1h5WNmqHOcfZ9NZeT8gpyr8i6NkZDxXo5haFJKWKFcs';
+let accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTUxMzc2NjkwNSwiZXhwIjoxNTEzNzY4NzA1fQ._34rdKA96CL3c2jhjyClxUvzPmRuvW2kpfIpN4O5pRc';
+let refreshToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTUxMzc2NjkwNSwiZXhwIjoxNTEzNzY3MzI1fQ.J32-TVQbNiKFkj3Igt3uPFnPlmTB-0lZc8kK1xS4rWc';
 
-let instance = Axios.create({baseURL: 'http://127.0.0.1:8848/api/'});
+let instance = Axios.create({ baseURL: 'http://127.0.0.1:8848/api/' });
 
 export function getTokenHeader(type) {
   let token = accessToken;
@@ -31,18 +32,25 @@ instance
   .response
   .use(response => response, (error => {
     if (error.response.status === HttpStatus.UNAUTHORIZED) {
-      instance
-        .get('refresh', getTokenHeader('refreshToken'))
-        .then(response => {
+      return instance
+      .get('refresh', getTokenHeader('refreshToken'))
+      .then(response => {
           if (response.status === HttpStatus.OK) {
-            console.log('old:', accessToken);
+            let config = Object.assign({}, error.config);
             accessToken = response.data['new access token'];
-            console.log('new', accessToken);
+            config.headers = getTokenHeader('accessToken').headers;
+            return instance.request(config)
+            .then(response => response)
+            .catch(err => err);
           }
         })
-        .catch(error => error);
-        
+        .catch(error => console.log('INVALID REFRESH TOKEN!'));
+
+    }else{
+      console.log("new type of error");
+      
     }
+
     return Promise.reject(error);
   }));
 

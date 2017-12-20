@@ -1,4 +1,7 @@
+/**Global imports */
 import axios from 'axios';
+
+/**Local imports */
 import instance from './instance';
 import {getTokenHeader} from "./instance";
 

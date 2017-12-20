@@ -1,17 +1,20 @@
-import React, {Component} from 'react';
-import {searchTodo} from '../services/api';
-import './Todo.css';
+/**Global imports */
+import React from 'react';
+import {Component} from 'react';
 
-class Search extends Component {
+/**Local imports */
+import './Todo.css';
+import {searchTodo} from '../services/api';
+
+export default class Search extends Component {
   constructor(props) {
     super(props);
     this.state = {
       "searchbar": ''
     }
-    this.handleSearch = this
-      .handleSearch
-      .bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
   }
+  
   handleSearch(event) {
     event.preventDefault();
     // console.log(event.target.value);
@@ -24,7 +27,7 @@ class Search extends Component {
 
     return (
       <div className="searchBar">
-        <label for="searchbar">Search todo
+        <label>Search todo
         </label>
         <input
           id="searchInputBox"
@@ -36,5 +39,3 @@ class Search extends Component {
     );
   }
 }
-
-export default Search;

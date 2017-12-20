@@ -1,13 +1,16 @@
-import React, {Component} from 'react';
+/**Global imports */
+import React from 'react';
+import {Component} from 'react';
+
+/**Local imports */
 import './Todo.css';
 
-class Edit extends Component {
+export default class Edit extends Component {
   constructor(props) {
     super(props);
-    this.handleEdit = this
-      .handleEdit
-      .bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
   }
+
   handleEdit(event) {
     event.preventDefault();
     this
@@ -21,8 +24,6 @@ class Edit extends Component {
     document
       .getElementById('todoBox')
       .value = this.props.data.description;
-
-
   }
   render() {
     return (
@@ -30,5 +31,3 @@ class Edit extends Component {
     );
   }
 }
-
-export default Edit;
