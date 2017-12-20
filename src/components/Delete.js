@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {deleteTodo, fetchPages} from '../utils/api'
+import {deleteTodo, fetchPages} from '../services/api'
 
 class Delete extends Component {
   constructor(props) {

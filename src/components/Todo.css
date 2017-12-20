@@ -45,7 +45,7 @@
 .searchBar{
   margin:none 30px 30px 30px;
   background: whitesmoke;
-  padding:50px;
+  padding:30px;
   font-size: 20px;
 }
 #searchInputBox{
@@ -86,4 +86,7 @@
   height:42px;           
   margin-left:10px;
   border-radius:50%;
+}
+a{
+  text-decoration: none;
 }

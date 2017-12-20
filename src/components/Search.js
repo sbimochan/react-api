@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {searchTodo} from '../utils/api';
+import {searchTodo} from '../services/api';
 import './Todo.css';
 
 class Search extends Component {
@@ -17,11 +17,7 @@ class Search extends Component {
     // console.log(event.target.value);
     let value = event.target.value
     this.setState({"searchbar": value})
-    searchTodo('users/3/todo', event.target.value).then(result => {
-      this
-        .props
-        .onSearchTodo(result)
-    })
+    searchTodo('users/3/todo', event.target.value).then(result => this.props.onSearchTodo(result))
   }
 
   render() {
@@ -30,7 +26,8 @@ class Search extends Component {
       <div className="searchBar">
         <label for="searchbar">Search todo
         </label>
-        <input id="searchInputBox"
+        <input
+          id="searchInputBox"
           type="text"
           name="searchbar"
           onChange={this.handleSearch}

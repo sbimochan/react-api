@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import {fetchPages} from '../utils/api';
+import {fetchPages} from '../services/api';
 import Create from './Create';
 import Search from './Search';
 import './Todo.css';
 import TodoList from './TodoList';
-import {updateTodo} from '../utils/api';
+import {updateTodo} from '../services/api';
 
 class Todo extends Component {
   constructor(props) {
@@ -100,7 +100,7 @@ class Todo extends Component {
         <div className="todoCount">
         Todo count:<span className="badge">{this.state.todoList.length}</span>
         </div>
-        <TodoList
+        <TodoList 
           editTodo={this.editTodo}
           todoList={this.state.todoList}
           onDeleteTodo={this.onDeleteTodo}/>

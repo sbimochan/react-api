@@ -39,7 +39,6 @@ class TodoList extends Component {
               <Delete
                 data={data.id}
                 onDeleteTodo={todoList => {
-                console.log('delete', todoList);
                 this
                   .props
                   .onDeleteTodo(todoList);
@@ -50,7 +49,7 @@ class TodoList extends Component {
               {data
                 .tags
                 .map((tag, index) => (
-                  <p>{tag.tagName}</p>
+                  <a href="#">{tag.tagName+', '}</a>
                 ))}
             </div>
           ))}
