@@ -29,10 +29,7 @@ export default class TodoList extends Component {
   render() {
     return (
       <div >
-        {this
-          .props
-          .todoList
-          .map((data, index) => (
+        {this.props.todoList.map((data, index) => (
             <div  key={data.id} className="todoFrame">
               <Description description={data.description} key={data.id}/>
               <Date date={data.createdAt}/>
@@ -40,16 +37,15 @@ export default class TodoList extends Component {
               <Delete
                 data={data.id}
                 onDeleteTodo={todoList => {
-                this
-                  .props
-                  .onDeleteTodo(todoList);
+                this.props.onDeleteTodo(todoList);
               }}/>
-              <Edit data={data} desc={data.description} getData={this.getData}/>
+              <Edit data={data} desc={data.description} getData={this.getData}
+                onUpdateTodo={todoList =>{
+                  this.props.onUpdateTodo(todoList);
+                }}/>
               <br/>
               <b>Tags:</b>
-              {data
-                .tags
-                .map((tag, index) => (
+              {data.tags.map((tag, index) => (
                   <a href="#" key={index}>{tag.tagName+', '}</a>
                 ))}
             </div>

@@ -36,6 +36,7 @@ export default class Create extends Component {
   render() {
     return (
       <div className="createForm">
+      
         <h1>Create todo</h1>
         <form onSubmit={this.handleSubmit}>
           <div>Todo:<textarea

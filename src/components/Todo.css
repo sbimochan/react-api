@@ -8,13 +8,21 @@
 .todo-lists{
   position:relative;
 }
-#todoEditBox{
-  position: absolute;
-  top:100px;
-  left:400px;
-  background: orange;
-  margin:20px;
-  padding:20px;
+
+.displayOn{
+    position: fixed;
+  top:30%;
+  left:30%;
+  background:#ccc;
+  border: 2px solid grey;
+  /* margin:20px; */
+  padding:50px;
+  transition: width 2s linear 1s;
+  opacity: 0.9;
+  display: block;
+  border-radius:10px;
+}
+.displayOff{
   display: none;
 }
 .button {
@@ -89,4 +97,7 @@
 }
 a{
   text-decoration: none;
+}
+.editButton{
+  display: inline;
 }
