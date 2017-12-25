@@ -1,10 +1,8 @@
 /**Global imports */
 import React from 'react';
-import {Component} from 'react';
 /* Local imports */
 import Edit from './Edit'
 import Delete from './Delete';
-import Search from './Search';
 
 function User(props) {
   return <div> <em>Posted By:{props.user.firstName + ' ' + props.user.lastName}</em></div>
@@ -30,12 +28,8 @@ const TodoList= props =>{
             onDeleteTodo={todoList => {
             props.onDeleteTodo(todoList);
             }} /> 
-            
-          <Edit data={data} handleEdit={props.handleEdit} desc={data.description} getData={props.getData}
-            isDisplay={props.isDisplay} handleUpdate={props.handleUpdate} handleInputChangeForUpdate={props.handleInputChangeForUpdate}
-            onUpdateTodo={todoList => {
-              props.onUpdateTodo(todoList);
-            }} />
+           
+          <Edit data={data} currentTodo={data.description} handleEdit={props.handleEdit} />
           <br />
 
           <b>Tags:</b>

@@ -1,6 +1,5 @@
 /**Global imports */
 import React from 'react';
-import {Component} from 'react';
 
 const Create = props =>{
   return (
