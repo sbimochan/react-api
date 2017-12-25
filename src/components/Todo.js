@@ -8,6 +8,7 @@ import Create from './Create';
 import Search from './Search';
 import TodoList from './TodoList';
 import {fetchPages, logout} from '../services/api';
+import { addTodo, searchTodo, deleteTodo} from '../services/api';
 
 
 export default class Todo extends Component {
@@ -16,7 +17,8 @@ export default class Todo extends Component {
     this.state = {
       todoList: [],
       "description": '',
-      editTodoId: null
+      editTodoId: null,
+      "searchbar": ''
     };
     this.onDeleteTodo = this.onDeleteTodo.bind(this);
     this.editTodo = this.editTodo.bind(this);
@@ -24,6 +26,8 @@ export default class Todo extends Component {
     this.onUpdateTodo = this.onUpdateTodo.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   componentDidMount() {
@@ -68,10 +72,27 @@ export default class Todo extends Component {
     addTodo('users/3/todo', this.state)
       .then(() => fetchPages('users/3/todo')
         .then(todoList => {
-          this.props.onUpdateTodo(todoList)
+          this.onUpdateTodo(todoList)
         }));
   }
-  
+  handleSearch(event) {
+    event.preventDefault();
+    // console.log(event.target.value);
+    let value = event.target.value
+    this.setState({ "searchbar": value })
+    searchTodo('users/3/todo', event.target.value).then(result => this.setState( {todoList:result}) )
+  }
+
+  handleDelete(event) {
+    event.preventDefault();
+    let todoId = event.target.value;
+    deleteTodo('users/3/todo/', todoId)
+      .then(() => fetchPages('users/3/todo')
+        .then(todoList => {
+          this.onDeleteTodo(todoList)
+        }));
+  }
+
   render() {
     return (
 
@@ -79,14 +100,11 @@ export default class Todo extends Component {
         <div className="header">Todo-lists
         <button type="submit" className="button btn-danger" onClick={this.handleLogout}>Logout</button>
         </div>
-        <Search
-          onSearchTodo={todoList => {
-          this
-            .setState(function () {
-              return {todoList: todoList}
-            })
-        }}/>
-        <Create
+        <Search handleSearch={this.handleSearch}
+         />
+        <Create handleSubmit = {this.handleSubmit} 
+        value ={this.state.description}
+         handleInputChange = {this.handleInputChange}
           onUpdateTodo={todoList => {
           this
             .setState(function () {
@@ -98,7 +116,7 @@ export default class Todo extends Component {
         Todo count:<span className="badge">{this.state.todoList.length}</span>
         </div>
         <TodoList 
-          editTodo={this.editTodo}
+          editTodo={this.editTodo} handleDelete={this.handleDelete}
           todoList={this.state.todoList}
           onDeleteTodo={this.onDeleteTodo} onUpdateTodo={this.onUpdateTodo}/>
       </div>
