@@ -1,6 +1,6 @@
 /**Global imports */
 import React from 'react';
-import {Component} from 'react';
+import { Component } from 'react';
 
 /**Local imports */
 import './Todo.css';
@@ -16,7 +16,7 @@ export default class Edit extends Component {
     this.changeTogglePopUp = this.changeTogglePopUp.bind(this);
   }
 
-  changeTogglePopUp(status){
+  changeTogglePopUp(status) {
     this.setState({
       togglePopUp: status
     });
@@ -25,21 +25,21 @@ export default class Edit extends Component {
   handleEdit(event) {
     event.preventDefault();
     this.props.getData(this.props.data.id);
-    this.setState({togglePopUp: true});
+    this.setState({ togglePopUp: true });
 
   }
   render() {
     return (
-      <div className="editButton">
-        <UpdateBox prevData = {this.props.data.description}
-        todoId={this.props.data.id} 
-        isDisplay = {this.state.togglePopUp? "displayOn": "displayOff"}
-        changeTogglePopUp = {this.changeTogglePopUp}
+      <div class="editButton">
+        <UpdateBox prevData={this.props.data.description}
+          todoId={this.props.data.id}
+          isDisplay={this.state.togglePopUp ? "displayOn" : "displayOff"}
+          changeTogglePopUp={this.changeTogglePopUp}
           onUpdateTodo={todoList => {
             this.props.onUpdateTodo(todoList);
           }}
         />
-       <button className = "button btn-warning" value = {this.props.data.id } onClick = {this.handleEdit} > Edit Todo </button> 
+        <button className="button btn-warning" value={this.props.data.id} onClick={this.handleEdit} > Edit Todo </button>
       </div>
     );
   }

@@ -28,6 +28,7 @@ export default class Todo extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
+    this.getData = this.getData.bind(this);
   }
 
   componentDidMount() {
@@ -92,6 +93,9 @@ export default class Todo extends Component {
           this.onDeleteTodo(todoList)
         }));
   }
+  getData(id) {
+    this.editTodo(id);
+  }
 
   render() {
     return (
@@ -117,7 +121,7 @@ export default class Todo extends Component {
         </div>
         <TodoList 
           editTodo={this.editTodo} handleDelete={this.handleDelete}
-          todoList={this.state.todoList}
+          todoList={this.state.todoList} getData = {this.getData}
           onDeleteTodo={this.onDeleteTodo} onUpdateTodo={this.onUpdateTodo}/>
       </div>
     )
