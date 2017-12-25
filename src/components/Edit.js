@@ -30,7 +30,7 @@ export default class Edit extends Component {
   }
   render() {
     return (
-      <div class="editButton">
+      <div className="editButton">
         <UpdateBox prevData = {this.props.data.description}
         todoId={this.props.data.id} 
         isDisplay = {this.state.togglePopUp? "displayOn": "displayOff"}

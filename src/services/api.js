@@ -38,14 +38,20 @@ export function addTodo(page, data) {
     .post(encodedURI, data,getTokenHeader('accessToken'))
     .then(response => response.data);
 }
+export function logout(page){
+  let encodedURI = window.encodeURI(baseurl + page);
+  return instance
+    .get(encodedURI, getTokenHeader('refreshToken'))
+    .then(response => response.data);
+}
 
 export function deleteTodo(page,todoId,data){
-  let encodedURI = window.encodeURI(baseurl + page+todoId);
+  let encodedURI = window.encodeURI(baseurl + page + todoId);
   return axios.delete(encodedURI, data)
     .then(response => response.data);
 }
 export function searchTodo(page,query){
-  let encodedURI = window.encodeURI(baseurl + page + '?search='+query);
+  let encodedURI = window.encodeURI(baseurl + page + '?search=' + query);
   return axios.get(encodedURI)
   
   .then(response => response.data);
