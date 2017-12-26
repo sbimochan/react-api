@@ -21,28 +21,19 @@ export default class Todo extends Component {
       "searchbar": '',
       togglePopUp: false
     };
-    this.onDeleteTodo = this.onDeleteTodo.bind(this);
+    this.getData = this.getData.bind(this);
     this.editTodo = this.editTodo.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
-    this.handleUpdateChange = this.handleUpdateChange.bind(this);
+    this.onDeleteTodo = this.onDeleteTodo.bind(this);
     this.onUpdateTodo = this.onUpdateTodo.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleInputChangeOfUpdate = this.handleInputChangeOfUpdate.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
-    this.changeTogglePopUp = this.changeTogglePopUp.bind(this);
-    this.getData = this.getData.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
-  }
-
-  componentDidMount() {
-    //AJAX
-    ApiServices.fetchPages('users/3/todo').then(todoList => {
-      this.setState(function () {
-          return {todoList: todoList}
-        })
-    });
+    this.changeTogglePopUp = this.changeTogglePopUp.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleUpdateChange = this.handleUpdateChange.bind(this);
+    this.handleInputChangeOfUpdate = this.handleInputChangeOfUpdate.bind(this);
   }
 
   onDeleteTodo(todoList) {
@@ -52,6 +43,7 @@ export default class Todo extends Component {
   editTodo(todoData) {
     this.setState({editTodo: todoData});
   }
+
   onUpdateTodo(todoList){
     this.setState({todoList:todoList});
   }
@@ -61,21 +53,25 @@ export default class Todo extends Component {
     const value = target.value;
     this.setState({"description": value})
   }
+
   handleLogout(event) {
     event.preventDefault();
     ApiServices.logout('logout');
   }
+
   handleInputChange(event) {
     const target = event.target;
     const value = target.value;
     const name = target.name;
     this.setState({ [name]: value })
   }
+
   handleInputChangeOfUpdate(event) {
     this.setState({
       editTodo: event.target.value
     })
   }
+
   handleSubmit(event) {
     event.preventDefault();
     ApiServices.addTodo('users/3/todo', this.state)
@@ -84,6 +80,7 @@ export default class Todo extends Component {
           this.onUpdateTodo(todoList)
         }));
   }
+
   handleSearch(event) {
     event.preventDefault();
     this.setState({ "searchbar": event.target.value })
@@ -98,26 +95,30 @@ export default class Todo extends Component {
           this.onDeleteTodo(todoList)
         }));
   }
+
   getData(todoData) {
     this.editTodo(todoData);
   }
+
   changeTogglePopUp(status) {
     this.setState({
       togglePopUp: status
     });
   }
+
   getTodoId(id){
     this.setState({
       editTodoId: id
     })
-    
   }
+
   handleEdit(event) {
     event.preventDefault();
     this.getTodoId(event.target.dataset.key);
     this.getData(event.target.value);
     this.setState({ togglePopUp: true });
   }
+
   handleUpdate(event) {
     event.preventDefault();
     let formatData = {
@@ -128,7 +129,15 @@ export default class Todo extends Component {
         this.onUpdateTodo(todoList);
         this.changeTogglePopUp(false);
       }));
+  }
 
+  componentDidMount() {
+    //AJAX
+    ApiServices.fetchPages('users/3/todo').then(todoList => {
+      this.setState(function () {
+        return { todoList: todoList }
+      })
+    });
   }
   render() {
     return (
