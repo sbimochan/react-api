@@ -8,6 +8,7 @@ import Create from './Create';
 import Search from './Search';
 import TodoList from './TodoList';
 import UpdateBox from './UpdateBox';
+import { Link } from 'react-router-dom';
 import * as ApiServices from '../services/api';
 
 export default class Todo extends Component {
@@ -21,56 +22,33 @@ export default class Todo extends Component {
       "searchbar": '',
       togglePopUp: false
     };
-    this.getData = this.getData.bind(this);
-    this.editTodo = this.editTodo.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
-    this.onDeleteTodo = this.onDeleteTodo.bind(this);
     this.onUpdateTodo = this.onUpdateTodo.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
-    this.changeTogglePopUp = this.changeTogglePopUp.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleUpdateChange = this.handleUpdateChange.bind(this);
-    this.handleInputChangeOfUpdate = this.handleInputChangeOfUpdate.bind(this);
   }
 
-  onDeleteTodo(todoList) {
-    this.setState({todoList: todoList});
-  }
-
-  editTodo(todoData) {
-    this.setState({editTodo: todoData});
-  }
-
-  onUpdateTodo(todoList){
-    this.setState({todoList:todoList});
-  }
+  onDeleteTodo = (todoList) => this.setState({todoList: todoList});
   
-  handleUpdateChange(event) {
-    const target = event.target;
-    const value = target.value;
-    this.setState({"description": value})
-  }
+  editTodo = (todoData) => this.setState({editTodo: todoData});
+  
+  onUpdateTodo = (todoList) =>this.setState({todoList:todoList});
 
-  handleLogout(event) {
-    event.preventDefault();
-    ApiServices.logout('logout');
-  }
+  handleUpdateChange= (event) => this.setState({"description": event.target.value});
+  
+  handleLogout = (event) => ApiServices.logout('logout');
 
-  handleInputChange(event) {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-    this.setState({ [name]: value })
-  }
+  handleInputChange = (event) => this.setState({ "description": event.target.value });
+  
+  handleInputChangeOfUpdate = (event) => this.setState({ editTodo: event.target.value});
+  
+  getData = (todoData) => this.editTodo(todoData);
 
-  handleInputChangeOfUpdate(event) {
-    this.setState({
-      editTodo: event.target.value
-    })
-  }
+  changeTogglePopUp = (status) => this.setState({togglePopUp: status});
+  
+  getTodoId = (id)=> this.setState({ editTodoId: id});
 
   handleSubmit(event) {
     event.preventDefault();
@@ -96,22 +74,6 @@ export default class Todo extends Component {
         }));
   }
 
-  getData(todoData) {
-    this.editTodo(todoData);
-  }
-
-  changeTogglePopUp(status) {
-    this.setState({
-      togglePopUp: status
-    });
-  }
-
-  getTodoId(id){
-    this.setState({
-      editTodoId: id
-    })
-  }
-
   handleEdit(event) {
     event.preventDefault();
     this.getTodoId(event.target.dataset.key);
@@ -121,7 +83,7 @@ export default class Todo extends Component {
 
   handleUpdate(event) {
     event.preventDefault();
-    let formatData = {
+    const formatData = {
       "description": this.state.editTodo
     }
     ApiServices.updateTodo('users/3/todo/', this.state.editTodoId, formatData)
@@ -132,19 +94,19 @@ export default class Todo extends Component {
   }
 
   componentDidMount() {
-    //AJAX
     ApiServices.fetchPages('users/3/todo').then(todoList => {
       this.setState(function () {
         return { todoList: todoList }
       })
     });
   }
+
   render() {
     return (
       <div>
         <div className="header">Todo-lists
-        <button type="submit" className="button btn-danger"
-         onClick={this.handleLogout}>Logout</button>
+        <Link to= "/logout" className="button btn-danger" onClick={this.handleLogout}>Logout
+         </Link>
         </div>
         <Search handleSearch={this.handleSearch}/>
         <Create handleSubmit = {this.handleSubmit} 

@@ -2,12 +2,11 @@
 import * as Axios from 'axios';
 import * as HttpStatus from 'http-status-codes';
 
-let accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTUxNDIyMjMyNSwiZXhwIjoxNTE0MjI0MTI1fQ._T-bwJ83yWgfkGpvvgQ8kSWigxtdNUIyraoxMOM12TI';
-let refreshToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTUxNDIyMjMyNSwiZXhwIjoxNTE0ODI3MTI1fQ.ukk42LCM6GDS7jDqrP8xkCF9nnRuJigOMdpL_2q81kY';
+let accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTUxNDM2NDUzOSwiZXhwIjoxNTE0MzY2MzM5fQ.5duMYdFSdix3pkf8vX0wmrisM_FAGcpnqrd0Igl_KQ0';
+let refreshToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTUxNDM2NDUzOSwiZXhwIjoxNTE0OTY5MzM5fQ.l0-FEuRJHg355SE6X-0fDYk1wop5uc_sCZTHLhgL79A';
 
 let instance = Axios.create({ baseURL: 'http://127.0.0.1:8848/api/', timeout: 1000 });
 // let instance = Axios.create({ baseURL: 'http://d7718283.ngrok.io/api/', timeout: 1000 });
-
 
 export function getTokenHeader(type) {
   let token = accessToken;
