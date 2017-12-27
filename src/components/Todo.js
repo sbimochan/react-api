@@ -22,12 +22,6 @@ export default class Todo extends Component {
       "searchbar": '',
       togglePopUp: false
     };
-    this.handleEdit = this.handleEdit.bind(this);
-    this.onUpdateTodo = this.onUpdateTodo.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleSearch = this.handleSearch.bind(this);
-    this.handleDelete = this.handleDelete.bind(this);
-    this.handleUpdate = this.handleUpdate.bind(this);
   }
 
   onDeleteTodo = (todoList) => this.setState({todoList: todoList});
@@ -50,7 +44,7 @@ export default class Todo extends Component {
   
   getTodoId = (id)=> this.setState({ editTodoId: id});
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     event.preventDefault();
     ApiServices.addTodo('users/3/todo', this.state)
       .then(() => ApiServices.fetchPages('users/3/todo')
@@ -59,13 +53,13 @@ export default class Todo extends Component {
         }));
   }
 
-  handleSearch(event) {
+  handleSearch = (event) => {
     event.preventDefault();
     this.setState({ "searchbar": event.target.value })
     ApiServices.searchTodo('users/3/todo', event.target.value).then(result => this.setState( {todoList:result}) )
   }
 
-  handleDelete(event) {
+  handleDelete = (event) => {
     event.preventDefault();
     ApiServices.deleteTodo('users/3/todo/', event.target.value)
       .then(() => ApiServices.fetchPages('users/3/todo')
@@ -74,14 +68,14 @@ export default class Todo extends Component {
         }));
   }
 
-  handleEdit(event) {
+  handleEdit = (event)=> {
     event.preventDefault();
     this.getTodoId(event.target.dataset.key);
     this.getData(event.target.value);
     this.setState({ togglePopUp: true });
   }
 
-  handleUpdate(event) {
+  handleUpdate = (event) => {
     event.preventDefault();
     const formatData = {
       "description": this.state.editTodo
