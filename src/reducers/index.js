@@ -4,25 +4,28 @@ const initialState = {
   editTodo: '',
   editTodoId: null,
   searchbar: '',
+  tags: [],
+  tagsList: [],
   togglePopUp: false
 }
 export default (state = initialState, action) => {
   switch (action.type) {
+    case 'changeTodoList':
+      return {...state, todoList:action.payload}
     case 'changeTogglePopUp':
-      console.log(initialState);
-
       return { ...state, togglePopUp: action.payload }
-
-    case 'VOTE_REACT':
-      console.log("vote react");
-
-      return { ...state, react: state.react + 1 }
-
-    case 'VOTE_VUEJS':
-      console.log("vote vue");
-
-      return { ...state, vue: state.vue + 1 }
-
+    case 'checkboxChange':
+      return {...state,tags: action.payload }
+    case 'fetchTags':
+      return {...state, tagsList: action.payload}
+    case 'editTodo':
+      return { ...state, editTodo:action.payload}
+    case 'getTodoId':
+      return {...state, editTodoId:action.payload}
+    case 'changeDescription':
+      return {...state, description:action.payload}
+    case 'handleSearch':
+      return {...state,searchbar:action.payload}
     default:
       return state
   }

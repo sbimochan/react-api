@@ -10,47 +10,33 @@ import TodoList from './TodoList';
 import UpdateBox from './UpdateBox';
 import { Link } from 'react-router-dom';
 import * as ApiServices from '../services/api';
+import connect from 'react-redux/lib/connect/connect';
 
-export default class Todo extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      todoList: [],
-      description: '',
-      editTodo: '',
-      editTodoId:null,
-      searchbar: '',
-      tags:[],
-      tagsList:[],
-      togglePopUp: false
-    };
-  }
+class Todo extends Component {
 
   getData = (todoData) => this.editTodo(todoData);
-  getTodoId = (id)=> this.setState({ editTodoId: id});
   handleLogout = (event) => ApiServices.logout('logout');
-  editTodo = (todoData) => this.setState({editTodo: todoData});
-  onUpdateTodo = (todoList) =>this.setState({todoList:todoList});
-  onDeleteTodo = (todoList) => this.setState({todoList: todoList});
-  changeTogglePopUp = (status) => this.setState({togglePopUp: status});
-  handleUpdateChange= (event) => this.setState({description: event.target.value});
-  handleInputChange = (event) => this.setState({ description: event.target.value });
-  handleInputChangeOfUpdate = (event) => this.setState({ editTodo: event.target.value});
-
+  getTodoId = (id) => this.props.dispatch({type:'getTodoId',payload:id});
+  editTodo = (todoData) => this.props.dispatch({type:'editTodo',payload:todoData});
+  onUpdateTodo = (todoList) => this.props.dispatch({ type:'changeTodoList',payload:todoList});
+  onDeleteTodo = (todoList) => this.props.dispatch({ type: 'changeTodoList', payload: todoList });
+  handleUpdateChange=(event)=>this.props.dispatch({type:'changeDescription',payload:event.target.value});
+  handleInputChange = (event) => this.props.dispatch({ type: 'changeDescription', payload: event.target.value });
+  handleInputChangeOfUpdate = (event) =>this.props.dispatch({type:'editTodo',payload:event.target.value})
   handleSubmit = (event) => {
     event.preventDefault();
-    ApiServices.addTodo('users/3/todo', this.state)
+    ApiServices.addTodo('users/3/todo', this.props)
       .then(() => ApiServices.fetchPages('users/3/todo')
         .then(todoList => {
           this.onUpdateTodo(todoList)
-        }));
-       
+        })); 
   }
 
   handleSearch = (event) => {
     event.preventDefault();
-    this.setState({ searchbar: event.target.value })
-    ApiServices.searchTodo('users/3/todo', event.target.value).then(result => this.setState( {todoList:result}) )
+    this.props.dispatch({type:'handleSearch',payload:event.target.value});
+    ApiServices.searchTodo('users/3/todo', event.target.value)
+    .then(result => this.props.dispatch({type:'changeTodoList',payload:result}));
   }
 
   handleDelete = (event) => {
@@ -66,35 +52,31 @@ export default class Todo extends Component {
     event.preventDefault();
     this.getTodoId(event.target.dataset.key);
     this.getData(event.target.value);
-    this.setState({ togglePopUp: true });
+    this.props.dispatch({ type: 'changeTogglePopUp', payload: true })
   }
 
   handleUpdate = (event) => {
     event.preventDefault();
     const formatData = {
-      description: this.state.editTodo
+      description: this.props.editTodo
     }
-    ApiServices.updateTodo('users/3/todo/', this.state.editTodoId, formatData)
+    ApiServices.updateTodo('users/3/todo/', this.props.editTodoId, formatData)
       .then(() => ApiServices.fetchPages('users/3/todo').then(todoList => {
         this.onUpdateTodo(todoList);
-        this.changeTogglePopUp(false);
+        this.props.dispatch({ type:'changeTogglePopUp',payload:false})
       }));
   }
  
   componentDidMount() {
     ApiServices.fetchPages('users/3/todo').then(todoList => {
-      this.setState(function () {
-        return { todoList: todoList }
-      })
+      this.props.dispatch({ type:'changeTodoList',payload:todoList})
     })
     ApiServices.fetchTags('/tags').then(tags =>
-      this.setState(function () {
-        return { tagsList: tags }
-      })
+      this.props.dispatch({ type:'fetchTags',payload:tags})
     )
   }
   checkboxChange = (event) => {
-    const tags = this.state.tags;
+    const tags = this.props.tags;
     let index;
     if(event.target.checked){
       tags.push(+event.target.value); //+ is to convert into integer
@@ -102,9 +84,9 @@ export default class Todo extends Component {
       index = tags.indexOf(+event.target.value);
       tags.splice(index,1);
     }
-    this.setState({tags:tags})
+    this.props.dispatch({ type: 'checkboxChange', payload: tags })
   }
-
+  
   render() {
     return (
       <div>
@@ -114,35 +96,33 @@ export default class Todo extends Component {
          </Link>
         </div>
         <Search handleSearch={this.handleSearch}/>
-        <Create handleSubmit={this.handleSubmit} fetchTags={this.state.tagsList} checkboxChange={this.checkboxChange}
-        value ={this.state.description}
-         handleInputChange = {this.handleInputChange}
-          onUpdateTodo={todoList => {
-          this.setState(function () {
-              return {todoList: todoList}
-            })
-        }}/>
-     
         <div className="todoCount">
-        Todo count:<span className="badge">{this.state.todoList.length}</span>
+        Todo count:<span className="badge">{this.props.todoList.length}</span>
         </div>
         <TodoList 
          handleEdit={this.handleEdit}
           editTodo={this.editTodo} handleDelete={this.handleDelete}
-          todoList={this.state.todoList} getData = {this.getData}
+          todoList={this.props.todoList} getData = {this.getData}
           onDeleteTodo={this.onDeleteTodo}
-           />
-        <UpdateBox prevData={this.state.editTodo}
-          handleInputChangeOfUpdate={this.handleInputChangeOfUpdate}
-          todoId={this.state.editTodoId}
-          handleUpdate={this.handleUpdate}
-          isDisplay={this.state.togglePopUp ? "displayOn" : "displayOff"}
-          changeTogglePopUp={this.changeTogglePopUp}
+        /> 
+        <Create handleSubmit={this.handleSubmit} fetchTags={this.props.tagsList} checkboxChange={this.checkboxChange}
+          value={this.props.description}
+          handleInputChange={this.handleInputChange}
           onUpdateTodo={todoList => {
-            this.props.onUpdateTodo(todoList);
-          }}
+            this.props.dispatch({ type: 'changeTodoList', payload: todoList });
+          }} />
+        <UpdateBox prevData={this.props.editTodo}
+          handleInputChangeOfUpdate={this.handleInputChangeOfUpdate}
+          todoId={this.props.editTodoId}
+          handleUpdate={this.handleUpdate}
+          isDisplay={this.props.togglePopUp ? "displayOn" : "displayOff"}
         />
       </div>
     )
   }
 }
+const mapStateToProps = (state)=>{
+return state;
+}
+const todoApp = connect(mapStateToProps)(Todo);
+export default todoApp;
