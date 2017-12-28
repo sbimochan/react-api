@@ -102,3 +102,6 @@ a{
   display: inline;
   margin-left: 20px;
 }
+.tagsList{
+  display: inline-block;
+}

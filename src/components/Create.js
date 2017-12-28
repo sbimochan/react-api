@@ -1,6 +1,9 @@
 /**Global imports */
 import React from 'react';
 
+/* Local imports */
+import './Todo.css';
+
 const Create = props =>{
   return (
     <div className="createForm">
@@ -14,17 +17,17 @@ const Create = props =>{
           name="description"
           value={props.description}
           onChange={props.handleInputChange} /></div>
-
-        <div className="tags">
-          <input type="checkbox" name="tagsCheckbox" id="1" />
-          <label>person</label>
-          <input type="checkbox" name="tagsCheckbox" id="2" />
-          <label>nature</label>
-          <input type="checkbox" name="tagsCheckbox" id="3" />
-          <label>vehicle</label>
-          <input type="checkbox" name="tagsCheckbox" id="4" />
-          <label>building</label>
-        </div>
+            <div className="tags">
+        {props.fetchTags.data ? 
+          props.fetchTags.data.map((tags,index)=>(
+            <div className="tagsList" key={index}>
+            <input type="checkbox" name="tagsCheckbox" value={tags.id} onChange={props.checkboxChange} />
+              <label>{tags.tagName}</label>
+            </div>
+          ))
+          :null}
+          </div>
+     
         <input type="submit" className="button" value="shoot" />
       </form>
     </div>

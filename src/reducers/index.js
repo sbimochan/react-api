@@ -1,17 +1,17 @@
 const initialState = {
   todoList: [],
-  "description": '',
+  description: '',
   editTodo: '',
   editTodoId: null,
-  "searchbar": '',
+  searchbar: '',
   togglePopUp: false
 }
 export default (state = initialState, action) => {
   switch (action.type) {
-    case 'VOTE_ANGULAR':
-      console.log("vote angular");
+    case 'changeTogglePopUp':
+      console.log(initialState);
 
-      return { ...state, angular: state.angular + 1 }
+      return { ...state, togglePopUp: action.payload }
 
     case 'VOTE_REACT':
       console.log("vote react");

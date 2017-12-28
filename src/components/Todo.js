@@ -16,33 +16,26 @@ export default class Todo extends Component {
     super(props);
     this.state = {
       todoList: [],
-      "description": '',
+      description: '',
       editTodo: '',
       editTodoId:null,
-      "searchbar": '',
+      searchbar: '',
+      tags:[],
+      tagsList:[],
       togglePopUp: false
     };
   }
 
-  onDeleteTodo = (todoList) => this.setState({todoList: todoList});
-  
-  editTodo = (todoData) => this.setState({editTodo: todoData});
-  
-  onUpdateTodo = (todoList) =>this.setState({todoList:todoList});
-
-  handleUpdateChange= (event) => this.setState({"description": event.target.value});
-  
-  handleLogout = (event) => ApiServices.logout('logout');
-
-  handleInputChange = (event) => this.setState({ "description": event.target.value });
-  
-  handleInputChangeOfUpdate = (event) => this.setState({ editTodo: event.target.value});
-  
   getData = (todoData) => this.editTodo(todoData);
-
-  changeTogglePopUp = (status) => this.setState({togglePopUp: status});
-  
   getTodoId = (id)=> this.setState({ editTodoId: id});
+  handleLogout = (event) => ApiServices.logout('logout');
+  editTodo = (todoData) => this.setState({editTodo: todoData});
+  onUpdateTodo = (todoList) =>this.setState({todoList:todoList});
+  onDeleteTodo = (todoList) => this.setState({todoList: todoList});
+  changeTogglePopUp = (status) => this.setState({togglePopUp: status});
+  handleUpdateChange= (event) => this.setState({description: event.target.value});
+  handleInputChange = (event) => this.setState({ description: event.target.value });
+  handleInputChangeOfUpdate = (event) => this.setState({ editTodo: event.target.value});
 
   handleSubmit = (event) => {
     event.preventDefault();
@@ -51,11 +44,12 @@ export default class Todo extends Component {
         .then(todoList => {
           this.onUpdateTodo(todoList)
         }));
+       
   }
 
   handleSearch = (event) => {
     event.preventDefault();
-    this.setState({ "searchbar": event.target.value })
+    this.setState({ searchbar: event.target.value })
     ApiServices.searchTodo('users/3/todo', event.target.value).then(result => this.setState( {todoList:result}) )
   }
 
@@ -78,7 +72,7 @@ export default class Todo extends Component {
   handleUpdate = (event) => {
     event.preventDefault();
     const formatData = {
-      "description": this.state.editTodo
+      description: this.state.editTodo
     }
     ApiServices.updateTodo('users/3/todo/', this.state.editTodoId, formatData)
       .then(() => ApiServices.fetchPages('users/3/todo').then(todoList => {
@@ -86,24 +80,41 @@ export default class Todo extends Component {
         this.changeTogglePopUp(false);
       }));
   }
-
+ 
   componentDidMount() {
     ApiServices.fetchPages('users/3/todo').then(todoList => {
       this.setState(function () {
         return { todoList: todoList }
       })
-    });
+    })
+    ApiServices.fetchTags('/tags').then(tags =>
+      this.setState(function () {
+        return { tagsList: tags }
+      })
+    )
+  }
+  checkboxChange = (event) => {
+    const tags = this.state.tags;
+    let index;
+    if(event.target.checked){
+      tags.push(+event.target.value); //+ is to convert into integer
+    }else{
+      index = tags.indexOf(+event.target.value);
+      tags.splice(index,1);
+    }
+    this.setState({tags:tags})
   }
 
   render() {
     return (
       <div>
+        
         <div className="header">Todo-lists
         <Link to= "/logout" className="button btn-danger" onClick={this.handleLogout}>Logout
          </Link>
         </div>
         <Search handleSearch={this.handleSearch}/>
-        <Create handleSubmit = {this.handleSubmit} 
+        <Create handleSubmit={this.handleSubmit} fetchTags={this.state.tagsList} checkboxChange={this.checkboxChange}
         value ={this.state.description}
          handleInputChange = {this.handleInputChange}
           onUpdateTodo={todoList => {

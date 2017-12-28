@@ -27,6 +27,7 @@ export function fetchPages(page) {
  * @param {*} data 
  */
 /*
+
 export function addTodo(page,data){
   let encodedURI = window.encodeURI(baseurl + page);
   return axios.post(encodedURI,data)
@@ -62,4 +63,9 @@ export function updateTodo(page, id,data) {
   
   return axios.put(encodedURI, data)
     .then(response => response.data);
+}
+/* Tags fetch */
+export function fetchTags(page){
+  let encodedURI = window.encodeURI(baseurl+page);
+  return axios.get(encodedURI).then(response => response.data);
 }
