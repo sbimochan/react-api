@@ -1,4 +1,3 @@
-/*
 export const changeTodoList = (payload) =>{
   return {
     type:'CHANGE_TODO_LIST',
@@ -47,4 +46,3 @@ export const handleSearch = (payload) => {
     payload
   }
 }
-*/

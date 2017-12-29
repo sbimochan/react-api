@@ -10,21 +10,21 @@ const initialState = {
 }
 export default (state = initialState, action) => {
   switch (action.type) {
-    case 'changeTodoList':
+    case 'CHANGE_TODO_LIST':
       return {...state, todoList:action.payload}
-    case 'changeTogglePopUp':
+    case 'CHANGE_TOGGLE_POPUP':
       return { ...state, togglePopUp: action.payload }
-    case 'checkboxChange':
+    case 'CHECKBOX_CHANGE':
       return {...state,tags: action.payload }
-    case 'fetchTags':
+    case 'FETCH_TAGS':
       return {...state, tagsList: action.payload}
-    case 'editTodo':
+    case 'EDIT_TODO':
       return { ...state, editTodo:action.payload}
-    case 'getTodoId':
+    case 'GET_TODO_ID':
       return {...state, editTodoId:action.payload}
-    case 'changeDescription':
+    case 'CHANGE_DESCRIPTION':
       return {...state, description:action.payload}
-    case 'handleSearch':
+    case 'HANDLE_SEARCH':
       return {...state,searchbar:action.payload}
     default:
       return state
