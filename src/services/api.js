@@ -1,6 +1,3 @@
-/**Global imports */
-import axios from 'axios';
-
 /**Local imports */
 import instance from './instance';
 import {getTokenHeader} from "./instance";
@@ -49,23 +46,38 @@ export function logout(page){
 
 export function deleteTodo(page,todoId,data){
   let encodedURI = window.encodeURI(baseurl + page + todoId);
-  return axios.delete(encodedURI, data)
+  return instance.delete(encodedURI, data)
     .then(response => response.data);
 }
 export function searchTodo(page,query){
   let encodedURI = window.encodeURI(baseurl + page + '?search=' + query);
-  return axios.get(encodedURI)
+  return instance.get(encodedURI)
   
   .then(response => response.data);
+}
+export function paginateTodo(page, query){
+  let encodedURI = window.encodeURI(baseurl + page +'?page='+query);
+  console.log(encodedURI);
+  return instance.get(encodedURI)
+  .then(response => response.data);
+  
 }
 export function updateTodo(page, id,data) {
   let encodedURI = window.encodeURI(baseurl + page +id);
   
-  return axios.put(encodedURI, data)
+  return instance.put(encodedURI, data)
     .then(response => response.data);
 }
 /* Tags fetch */
 export function fetchTags(page){
   let encodedURI = window.encodeURI(baseurl+page);
-  return axios.get(encodedURI).then(response => response.data);
+  return instance.get(encodedURI).then(response => response.data);
+}
+
+/* Tags related todos */
+export function todosRelated(page,tagid){
+  let encodedURI = window.encodeURI(baseurl + page+'/'+tagid);
+  console.log(encodedURI);
+  
+  return instance.get(encodedURI).then(response =>response.data);
 }

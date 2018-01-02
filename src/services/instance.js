@@ -2,8 +2,8 @@
 import * as Axios from 'axios';
 import * as HttpStatus from 'http-status-codes';
 
-let accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTUxNDUyMjI1NSwiZXhwIjoxNTE0NTI0MDU1fQ.iOBkIWzqjq3j9nF6G71GP1hSoLn-Tj478fLb3mmsGbM';
-let refreshToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTUxNDUyMjI1NSwiZXhwIjoxNTE1MTI3MDU1fQ.9_NIqeFLr2x7qg2IuPIS6GNHx6YNy5iN28wi2ih6Bfk';
+let accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTUxNDUyOTc3NSwiZXhwIjoxNTE0NTMxNTc1fQ.PfmkHS7HHDpBRQ_LHXAejCHiqpzWPOzZ9txq6Om57Jc';
+let refreshToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTUxNDUyOTc3NSwiZXhwIjoxNTE1MTM0NTc1fQ.KI5gTs_bKYIQq5S-BY81s7O0i4u4KwUb7om27PFTTOc';
 
 let instance = Axios.create({ baseURL: 'http://127.0.0.1:8848/api/', timeout: 1000 });
 // let instance = Axios.create({ baseURL: 'http://d7718283.ngrok.io/api/', timeout: 1000 });
@@ -32,19 +32,19 @@ instance
   .interceptors
   .response
   .use(response => response, (error => {
-    console.log('ss', typeof HttpStatus.UNAUTHORIZED);
+    console.log('ss', error.message);
 
-    if (error.response.status === HttpStatus.UNAUTHORIZED && error.message !== 'Request failed with status code 401') {
+    if (error.response.status === HttpStatus.UNAUTHORIZED && error.message === 'Request failed with status code 401') {
       console.log('unauthorized');
 
       return instance
         .get('refresh', getTokenHeader('refreshToken'))
         .then(response => {
           if (response.status === HttpStatus.OK) {
-            let config = Object.assign({}, error.config);
+            // let config = Object.assign({}, error.config);
+            let config = {...error.config};
             accessToken = response.data['new access token'];
             console.log('response access token', accessToken);
-
             config.headers = getTokenHeader('accessToken').headers;
             return instance.request(config)
               .then(response => response)

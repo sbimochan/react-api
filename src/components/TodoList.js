@@ -18,24 +18,17 @@ function Date(props) {
 const TodoList= props =>{
   return (
     <div >
-      
       {props.todoList.map((data, index) => (
         <div key={data.id} className="todoFrame">
           <Description description={data.description} key={data.id} />
           <Date date={data.createdAt} />
           <User user={data.user} key={data.user.id} />
-          <Delete
-            data={data.id} handleDelete={props.handleDelete}
-            onDeleteTodo={todoList => {
-            props.onDeleteTodo(todoList);
-            }} /> 
-           
-          <Edit data={data} currentTodo={data.description} handleEdit={props.handleEdit} />
+          <Delete data={data.id} handleDelete={props.handleDelete} /> 
+          <Edit data={data} handleEdit={props.handleEdit} />
           <br />
-
           <b>Tags:</b>
           {data.tags.map((tag, index) => (
-            <a href="/tags" key={index}>{tag.tagName + ', '}</a>
+            <button key={index} value={tag.id} onClick={props.tagLink}>{tag.tagName}</button>
           ))}
         </div>
       ))}

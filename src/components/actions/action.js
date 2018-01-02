@@ -46,3 +46,15 @@ export const handleSearch = (payload) => {
     payload
   }
 }
+export const handlePagination = (payload) => {
+  return {
+    type: 'HANDLE_PAGINATION',
+    payload
+  }
+}
+export const pageCount = (payload) => {
+  return {
+    type: 'PAGE_COUNT',
+    payload
+  }
+}

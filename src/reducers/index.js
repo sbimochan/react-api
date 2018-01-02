@@ -6,7 +6,10 @@ const initialState = {
   searchbar: '',
   tags: [],
   tagsList: [],
-  togglePopUp: false
+  togglePopUp: false,
+  pagination:1,
+  pageCount: 1
+
 }
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -26,6 +29,10 @@ export default (state = initialState, action) => {
       return {...state, description:action.payload}
     case 'HANDLE_SEARCH':
       return {...state,searchbar:action.payload}
+    case 'HANDLE_PAGINATION':
+      return {...state,pagination:action.payload}
+    case 'PAGE_COUNT':
+      return {...state, pageCount:action.payload}
     default:
       return state
   }
