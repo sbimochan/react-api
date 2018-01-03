@@ -2,8 +2,8 @@
 import React from 'react';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
-import connect from 'react-redux/lib/connect/connect';
 import ReactPaginate from 'react-paginate';
+import connect from 'react-redux/lib/connect/connect';
 /**Local imports */
 import './Todo.css';
 import Create from './Create';

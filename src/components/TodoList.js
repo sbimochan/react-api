@@ -1,6 +1,7 @@
 /**Global imports */
 import React from 'react';
 /* Local imports */
+import './Todo.css';
 import Edit from './Edit'
 import Delete from './Delete';
 
@@ -15,6 +16,7 @@ function Description(props) {
 function Date(props) {
   return <p>{props.date}</p>
 }
+
 const TodoList= props =>{
   return (
     <div >
@@ -23,13 +25,15 @@ const TodoList= props =>{
           <Description description={data.description} key={data.id} />
           <Date date={data.createdAt} />
           <User user={data.user} key={data.user.id} />
+          <div className="actions">
           <Delete data={data.id} handleDelete={props.handleDelete} /> 
           <Edit data={data} handleEdit={props.handleEdit} />
-          <br />
-          <b>Tags:</b>
+          </div>
+          <ul className="tagsList">
           {data.tags.map((tag, index) => (
-            <button key={index} value={tag.id} onClick={props.tagLink}>{tag.tagName}</button>
+            <li className="tag" key={index} value={tag.id} onClick={props.tagLink}>{tag.tagName}</li>
           ))}
+          </ul>
         </div>
       ))}
     </div>
