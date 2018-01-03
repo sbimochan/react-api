@@ -8,7 +8,8 @@ const initialState = {
   tagsList: [],
   togglePopUp: false,
   pagination:1,
-  pageCount: 1
+  pageCount: 1,
+  tagsRelated:[]
 
 }
 export default (state = initialState, action) => {
@@ -33,6 +34,8 @@ export default (state = initialState, action) => {
       return {...state,pagination:action.payload}
     case 'PAGE_COUNT':
       return {...state, pageCount:action.payload}
+    case 'TAGS_RELATED':
+      return {...state, tagsRelated:action.payload}
     default:
       return state
   }

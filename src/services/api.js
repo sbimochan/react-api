@@ -3,15 +3,7 @@ import instance from './instance';
 import {getTokenHeader} from "./instance";
 
 let baseurl ='http://127.0.0.1:8848/api/';
-// let baseurl ='http://d7718283.ngrok.io/api/'
 
-/*
-export function fetchPages(page) {
-  let encodedURI = window.encodeURI(baseurl+ page);
-  return axios.get(encodedURI)
-    .then(response => response.data);
-}
-*/
 export function fetchPages(page) {
   let encodedURI = window.encodeURI(baseurl + page);
   return instance
@@ -23,14 +15,7 @@ export function fetchPages(page) {
  * @param {*} page 
  * @param {*} data 
  */
-/*
 
-export function addTodo(page,data){
-  let encodedURI = window.encodeURI(baseurl + page);
-  return axios.post(encodedURI,data)
-    .then(response => response.data);
-}
-*/
 export function addTodo(page, data) {
   let encodedURI = window.encodeURI(baseurl + page);
   return instance
@@ -77,7 +62,5 @@ export function fetchTags(page){
 /* Tags related todos */
 export function todosRelated(page,tagid){
   let encodedURI = window.encodeURI(baseurl + page+'/'+tagid);
-  console.log(encodedURI);
-  
   return instance.get(encodedURI).then(response =>response.data);
 }

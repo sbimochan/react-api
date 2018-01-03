@@ -10,6 +10,7 @@ import Create from './Create';
 import Search from './Search';
 import TodoList from './TodoList';
 import UpdateBox from './UpdateBox';
+import TagsRelated from './TagsRelated';
 import * as ApiServices from '../services/api';
 import * as todoActions from './actions/action';
 
@@ -94,7 +95,7 @@ class Todo extends Component {
   tagLink = (event) => {
     event.preventDefault();
     ApiServices.todosRelated('/tags', event.target.value).then((todos) =>
-      console.log(todos.data.todos)
+      this.props.dispatch(todoActions.tagsRelated(todos.data.todos))
     );
   };
   checkboxChange = (event) => {
@@ -161,6 +162,9 @@ class Todo extends Component {
           todoId={this.props.editTodoId}
           handleUpdate={this.handleUpdate}
           isDisplay={this.props.togglePopUp ? 'displayOn' : 'displayOff'}
+        />
+        <TagsRelated
+        data = {this.props.tagsRelated}
         />
       </div>
     );

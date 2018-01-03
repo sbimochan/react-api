@@ -1,60 +1,66 @@
-export const changeTodoList = (payload) =>{
+export const changeTodoList = (payload) => {
   return {
-    type:'CHANGE_TODO_LIST',
-    payload
-  }
-}
+    type: 'CHANGE_TODO_LIST',
+    payload,
+  };
+};
 export const changeTogglePopUp = (payload) => {
   return {
     type: 'CHANGE_TOGGLE_POPUP',
-    payload
-  }
-}
+    payload,
+  };
+};
 export const checkboxChange = (payload) => {
   return {
     type: 'CHECKBOX_CHANGE',
-    payload
-  }
-}
+    payload,
+  };
+};
 export const fetchTags = (payload) => {
   return {
     type: 'FETCH_TAGS',
-    payload
-  }
-}
+    payload,
+  };
+};
 export const editTodo = (payload) => {
   return {
     type: 'EDIT_TODO',
-    payload
-  }
-}
+    payload,
+  };
+};
 export const getTodoId = (payload) => {
   return {
     type: 'GET_TODO_ID',
-    payload
-  }
-}
+    payload,
+  };
+};
 export const changeDescription = (payload) => {
   return {
     type: 'CHANGE_DESCRIPTION',
-    payload
-  }
-}
+    payload,
+  };
+};
 export const handleSearch = (payload) => {
   return {
     type: 'HANDLE_SEARCH',
-    payload
-  }
-}
+    payload,
+  };
+};
 export const handlePagination = (payload) => {
   return {
     type: 'HANDLE_PAGINATION',
-    payload
-  }
-}
+    payload,
+  };
+};
 export const pageCount = (payload) => {
   return {
     type: 'PAGE_COUNT',
-    payload
-  }
-}
+    payload,
+  };
+};
+export const tagsRelated = (payload) => {
+  return {
+    type: 'TAGS_RELATED',
+    payload,
+  };
+};
