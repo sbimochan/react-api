@@ -64,3 +64,15 @@ export const tagsRelated = (payload) => {
     payload,
   };
 };
+export const isAuth = (payload) =>{
+  return {
+    type: 'IS_AUTH',
+    payload,
+  }
+}
+export const userId = (payload) =>{
+  return {
+    type:'USER_ID',
+    payload,
+  }
+}

@@ -26,7 +26,7 @@ const TodoList= props =>{
           <Date date={data.createdAt} />
           <User user={data.user} key={data.user.id} />
           <div className="actions">
-          <Delete data={data.id} handleDelete={props.handleDelete} /> 
+          <Delete data={data.id} index={index} handleDelete={props.handleDelete} /> 
           <Edit data={data} handleEdit={props.handleEdit} />
           </div>
           <ul className="tagsList">

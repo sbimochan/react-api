@@ -3,9 +3,9 @@ import React from 'react';
 
 const Delete = props =>{
   return (
-    <div className="button btn-danger" 
+    <button className="button btn-danger" 
     value={props.data}
-     onClick={props.handleDelete}>Delete Todo</div>
+     onClick={props.handleDelete}>Delete Todo</button>
   );
 }
 export default Delete;

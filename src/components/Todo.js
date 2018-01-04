@@ -4,6 +4,7 @@ import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 import connect from 'react-redux/lib/connect/connect';
+
 /**Local imports */
 import './Todo.css';
 import Create from './Create';
@@ -15,8 +16,12 @@ import * as ApiServices from '../services/api';
 import * as todoActions from './actions/action';
 
 class Todo extends Component {
+  userId = localStorage.getItem('userId');
   getData = (todoData) => this.editTodo(todoData);
-  handleLogout = (event) => ApiServices.logout('logout');
+  handleLogout = (event) => {
+    ApiServices.logout('logout');
+    this.props.dispatch(todoActions.isAuth(false));
+  };
   getTodoId = (id) => this.props.dispatch(todoActions.getTodoId(id));
   editTodo = (todoData) => this.props.dispatch(todoActions.editTodo(todoData));
   onChangeTodoList = (todoList) =>
@@ -28,27 +33,36 @@ class Todo extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    ApiServices.addTodo('users/3/todo', this.props).then(() =>
-      ApiServices.fetchPages('users/3/todo').then((todoList) => {
-        this.onChangeTodoList(todoList.todo);
-      })
+    ApiServices.addTodo('users/' + this.userId + '/todo', this.props).then(() =>
+      ApiServices.fetchPages('users/' + this.userId + '/todo').then(
+        (todoList) => {
+          this.onChangeTodoList(todoList.todo);
+        }
+      )
     );
   };
 
   handleSearch = (event) => {
     event.preventDefault();
     this.props.dispatch(todoActions.handleSearch(event.target.value));
-    ApiServices.searchTodo('users/3/todo', event.target.value).then((result) =>
-      this.props.dispatch(todoActions.changeTodoList(result))
-    );
+    ApiServices.searchTodo(
+      'users/' + this.userId + '/todo',
+      event.target.value
+    ).then((result) => this.props.dispatch(todoActions.changeTodoList(result)));
   };
 
   handleDelete = (event) => {
     event.preventDefault();
-    ApiServices.deleteTodo('users/3/todo/', event.target.value).then(() =>
-      ApiServices.fetchPages('users/3/todo').then((todoList) => {
-        this.onChangeTodoList(todoList.todo);
-      })
+
+    ApiServices.deleteTodo(
+      'users/' + this.userId + '/todo/',
+      event.target.value
+    ).then(() =>
+      ApiServices.fetchPages('users/' + this.userId + '/todo').then(
+        (todoList) => {
+          this.onChangeTodoList(todoList.todo);
+        }
+      )
     );
   };
 
@@ -65,32 +79,41 @@ class Todo extends Component {
       description: this.props.editTodo,
     };
     ApiServices.updateTodo(
-      'users/3/todo/',
+      'users/' + this.userId + '/todo/',
       this.props.editTodoId,
       formatData
     ).then(() =>
-      ApiServices.fetchPages('users/3/todo').then((todoList) => {
-        this.onChangeTodoList(todoList.todo);
-        this.props.dispatch(todoActions.changeTogglePopUp(false));
-      })
+      ApiServices.fetchPages('users/' + this.userId + '/todo').then(
+        (todoList) => {
+          this.onChangeTodoList(todoList.todo);
+          this.props.dispatch(todoActions.changeTogglePopUp(false));
+        }
+      )
     );
   };
+
   handlePageClick = (data) => {
-    data.selected = data.selected+1; //hack code
+    data.selected = data.selected + 1; //hack code
     this.props.dispatch(todoActions.handlePagination(data.selected));
-    ApiServices.paginateTodo('users/3/todo', data.selected).then((result) =>
+    ApiServices.paginateTodo(
+      'users/' + this.userId + '/todo',
+      data.selected
+    ).then((result) =>
       this.props.dispatch(todoActions.changeTodoList(result.todo))
     );
   };
   componentDidMount() {
-    ApiServices.fetchPages('users/3/todo').then((todoList) => {
-      this.props.dispatch(todoActions.changeTodoList(todoList.todo));
-      this.props.dispatch(todoActions.pageCount(todoList.pagination.pageCount));
-    });
+    ApiServices.fetchPages('users/' + this.userId + '/todo').then(
+      (todoList) => {
+        this.props.dispatch(todoActions.changeTodoList(todoList.todo));
+        this.props.dispatch(
+          todoActions.pageCount(todoList.pagination.pageCount)
+        );
+      }
+    );
     ApiServices.fetchTags('/tags').then((tags) =>
       this.props.dispatch(todoActions.fetchTags(tags))
     );
-   
   }
   tagLink = (event) => {
     event.preventDefault();
@@ -116,7 +139,7 @@ class Todo extends Component {
         <div className="header">
           Todo-lists
           <Link
-            to="/logout"
+            to="/"
             className="button btn-danger"
             onClick={this.handleLogout}
           >
@@ -163,9 +186,7 @@ class Todo extends Component {
           handleUpdate={this.handleUpdate}
           isDisplay={this.props.togglePopUp ? 'displayOn' : 'displayOff'}
         />
-        <TagsRelated
-        data = {this.props.tagsRelated}
-        />
+        <TagsRelated data={this.props.tagsRelated} />
       </div>
     );
   }

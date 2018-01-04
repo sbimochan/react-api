@@ -6,7 +6,7 @@ export const UpdateBox =props =>{
     <div className={props.isDisplay}>
       <div><h2>Update todo</h2></div>
       <form onSubmit={props.handleUpdate}>
-        <div>Todo:<input id="searchInputBox"
+        <div>Todo:<input
           type="text"
           name="description"
           value={props.prevData}
