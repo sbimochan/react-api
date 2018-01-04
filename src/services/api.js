@@ -4,7 +4,8 @@ import * as Axios from 'axios';
 import instance from './instance';
 import { getTokenHeader } from './instance';
 
-let baseurl = 'http://127.0.0.1:8848/api/';
+// let baseurl = 'http://127.0.0.1:8848/api/';
+let baseurl = 'https://git.heroku.com/express-play.git/api/';
 
 export function fetchPages(page) {
   let encodedURI = window.encodeURI(baseurl + page);
@@ -30,7 +31,6 @@ export function logout(page) {
     .get(encodedURI, getTokenHeader('refreshToken'))
     .then((response) => {
       if (response.data === 'OK') {
-        
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         localStorage.removeItem('userId');
