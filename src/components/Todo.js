@@ -48,7 +48,10 @@ class Todo extends Component {
     ApiServices.searchTodo(
       'users/' + this.userId + '/todo',
       event.target.value
-    ).then((result) => this.props.dispatch(todoActions.changeTodoList(result)));
+    ).then((result) => {
+      this.props.dispatch(todoActions.changeTodoList(result.todo));
+      this.props.dispatch(todoActions.pageCount(result.pagination.pageCount));
+    });
   };
 
   handleDelete = (event) => {
