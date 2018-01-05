@@ -4,8 +4,8 @@ import * as Axios from 'axios';
 import instance from './instance';
 import { getTokenHeader } from './instance';
 
-let baseurl = 'http://127.0.0.1:8848/api/';
-// let baseurl = 'https://git.heroku.com/express-play.git/api/';
+// let baseurl = 'http://127.0.0.1:8848/api/';
+let baseurl = 'https://express-play.herokuapp.com/api/';
 
 export function fetchPages(page) {
   let encodedURI = window.encodeURI(baseurl + page);
@@ -44,7 +44,7 @@ export function logout(page) {
 export function deleteTodo(page, todoId, data) {
   let encodedURI = window.encodeURI(baseurl + page + todoId);
   console.log(encodedURI);
-  
+
   return instance.delete(encodedURI, data).then((response) => response.data);
 }
 export function searchTodo(page, query) {
