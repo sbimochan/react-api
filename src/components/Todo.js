@@ -1,10 +1,12 @@
 /**Global imports */
 import React from 'react';
+import moment from 'moment';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
+import BigCalendar from 'react-big-calendar';
 import connect from 'react-redux/lib/connect/connect';
-
+import 'react-big-calendar/lib/css/react-big-calendar.css';
 /**Local imports */
 import './Todo.css';
 import Create from './Create';
@@ -30,7 +32,8 @@ class Todo extends Component {
     this.props.dispatch(todoActions.changeDescription(event.target.value));
   handleInputChangeOfUpdate = (event) =>
     this.props.dispatch(todoActions.editTodo(event.target.value));
-
+  handleDatePicker = (date) =>
+    this.props.dispatch(todoActions.changeDatePicker(date));
   handleSubmit = (event) => {
     event.preventDefault();
     ApiServices.addTodo('users/' + this.userId + '/todo', this.props).then(() =>
@@ -137,6 +140,14 @@ class Todo extends Component {
   };
 
   render() {
+    BigCalendar.momentLocalizer(moment);
+    const events = this.props.todoList.map((data, index) => ({
+      allDay: true,
+      sakkyo: data.createdAt,
+      suruvayo: data.createdAt,
+      title: data.description,
+    }));
+
     return (
       <div>
         <div className="header">
@@ -161,6 +172,7 @@ class Todo extends Component {
           todoList={this.props.todoList}
           onDeleteTodo={this.onChangeTodoList}
         />
+        <BigCalendar events={events} startAccessor="suruvayo" endAccessor="sakkyo" />
         <ReactPaginate
           previousLabel={'previous'}
           nextLabel={'next'}
@@ -178,9 +190,11 @@ class Todo extends Component {
         <Create
           handleSubmit={this.handleSubmit}
           fetchTags={this.props.tagsList}
+          startDate={this.props.startDate}
           checkboxChange={this.checkboxChange}
           value={this.props.description}
           handleInputChange={this.handleInputChange}
+          handleDatePicker={this.handleDatePicker}
         />
         <UpdateBox
           prevData={this.props.editTodo}

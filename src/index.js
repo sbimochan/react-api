@@ -16,14 +16,12 @@ import PrivateRoute from './components/PrivateRoute';
 const middleware = applyMiddleware(createLogger());
 let store = createStore(myApp, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(), middleware);
 
-
   ReactDOM.render(
     <Provider store={store}> 
       <BrowserRouter>
         <div>
           <Route exact path='/' component={Login}/>
-          <PrivateRoute exact path='/todo' component={Todo} />
-          
+          <PrivateRoute path='/todo' component={Todo} />
         </div>
       </BrowserRouter>
     </Provider>, document.getElementById('root'));

@@ -5,13 +5,16 @@ import instance from './instance';
 import { getTokenHeader } from './instance';
 
 let baseurl = 'http://127.0.0.1:8848/api/';
-// let baseurl = 'https://git.heroku.com/express-play.git/api/';
 
 export function fetchPages(page) {
   let encodedURI = window.encodeURI(baseurl + page);
   return instance
     .get(encodedURI, getTokenHeader('accessToken'))
-    .then((response) => response.data);
+    .then((response) => response.data)
+    .catch(err => {
+      logout('logout');
+      return err;
+    });
 }
 /**
  * without token
@@ -20,6 +23,8 @@ export function fetchPages(page) {
  */
 
 export function addTodo(page, data) {
+  console.log('addtodo',data);
+  
   let encodedURI = window.encodeURI(baseurl + page);
   return instance
     .post(encodedURI, data, getTokenHeader('accessToken'))

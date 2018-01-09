@@ -64,15 +64,21 @@ export const tagsRelated = (payload) => {
     payload,
   };
 };
-export const isAuth = (payload) =>{
+export const isAuth = (payload) => {
   return {
     type: 'IS_AUTH',
     payload,
-  }
-}
-export const userId = (payload) =>{
+  };
+};
+export const userId = (payload) => {
   return {
-    type:'USER_ID',
+    type: 'USER_ID',
     payload,
-  }
-}
+  };
+};
+export const changeDatePicker = (payload) => {
+  return {
+    type: 'CHANGE_DATE_PICKER',
+    payload,
+  };
+};

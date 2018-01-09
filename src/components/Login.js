@@ -30,14 +30,15 @@ const Login = (props) => {
       })
       .catch((err) => {
         if (err.message === 'Request failed with status code 404') {
-          console.log('User not found');
+          alert('User not found');
         }
       });
   };
-  if(props.isAuth=== true){
+  
+  if(props.isAuth === true){
     return <Redirect to= '/todo'/>;
-  }  else{
-
+  } 
+   else{
     return <LoginForm handleLogin={handleLogin} />;
   }
 };

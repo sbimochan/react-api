@@ -8,7 +8,6 @@ import { Route, Redirect } from 'react-router-dom';
  */
 
 const PrivateRoute = ({ component: Component, state, ...rest }) => {
-  
   return (
     <Route
     {...rest}

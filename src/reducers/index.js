@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 const initialState = {
   todoList: [],
   description: '',
@@ -11,7 +13,8 @@ const initialState = {
   pageCount: 1,
   tagsRelated: [],
   userId: null,
-  isAuth: JSON.parse(localStorage.getItem('isAuth'))
+  isAuth: JSON.parse(localStorage.getItem('isAuth')),
+  startDate: moment()
 };
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -41,6 +44,8 @@ export default (state = initialState, action) => {
       return { ...state, isAuth: action.payload };
     case 'USER_ID':
       return { ...state,userId:action.payload};
+    case 'CHANGE_DATE_PICKER':
+      return { ...state, startDate:action.payload};
     default:
       return state;
   }
