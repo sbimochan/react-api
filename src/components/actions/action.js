@@ -82,3 +82,10 @@ export const changeDatePicker = (payload) => {
     payload,
   };
 };
+export const reorderItem = (id, index) => {
+  return {
+    type: 'REORDER_ITEM',
+    id,
+    index,
+  };
+};

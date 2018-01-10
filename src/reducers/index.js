@@ -14,7 +14,10 @@ const initialState = {
   tagsRelated: [],
   userId: null,
   isAuth: JSON.parse(localStorage.getItem('isAuth')),
-  startDate: moment()
+  startDate: moment(),
+};
+export const DragTypes = {
+  ITEM: 'item',
 };
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -43,10 +46,18 @@ export default (state = initialState, action) => {
     case 'IS_AUTH':
       return { ...state, isAuth: action.payload };
     case 'USER_ID':
-      return { ...state,userId:action.payload};
+      return { ...state, userId: action.payload };
     case 'CHANGE_DATE_PICKER':
-      return { ...state, startDate:action.payload};
+      return { ...state, startDate: action.payload };
+    case 'REORDER_ITEM':
+      return { ...state, todoList:reorderList([...state.todoList],action.id,action.index)}
     default:
       return state;
+  }
+  function reorderList(array, value, positionChange) {
+    let oldIndex = array.findIndex((x) => x.id === value);
+    let arrayClone = array.slice();
+    arrayClone.splice(positionChange, 0, arrayClone.splice(oldIndex, 1)[0]);
+    return arrayClone;
   }
 };

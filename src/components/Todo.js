@@ -4,7 +4,9 @@ import moment from 'moment';
 import { Component } from 'react';
 import { Link } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
+import { DragDropContext } from 'react-dnd';
 import BigCalendar from 'react-big-calendar';
+import HTML5Backend from 'react-dnd-html5-backend';
 import connect from 'react-redux/lib/connect/connect';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 /**Local imports */
@@ -78,7 +80,11 @@ class Todo extends Component {
     this.getData(event.target.value);
     this.props.dispatch(todoActions.changeTogglePopUp(true));
   };
+  reorderTodo = (itemId, index) => {
+    console.log('todo', itemId);
 
+    this.props.dispatch(todoActions.reorderItem(itemId, index));
+  };
   handleUpdate = (event) => {
     event.preventDefault();
     const formatData = {
@@ -96,6 +102,12 @@ class Todo extends Component {
         }
       )
     );
+  };
+  reorderList = (array, value, positionChange) => {
+    let oldIndex = array.findIndex((x) => x.id === value);
+    let arrayClone = array.slice();
+    arrayClone.splice(positionChange, 0, arrayClone.splice(oldIndex, 1)[0]);
+    return arrayClone;
   };
 
   handlePageClick = (data) => {
@@ -164,15 +176,25 @@ class Todo extends Component {
         <div className="todoCount">
           Todo count:<span className="badge">{this.props.todoList.length}</span>
         </div>
-        <TodoList
-          handleEdit={this.handleEdit}
-          tagLink={this.tagLink}
-          editTodo={this.editTodo}
-          handleDelete={this.handleDelete}
-          todoList={this.props.todoList}
-          onDeleteTodo={this.onChangeTodoList}
+        {this.props.todoList.map((data, index) => (
+          <TodoList
+            data={data}
+            index={index}
+            key={index}
+            handleEdit={this.handleEdit}
+            tagLink={this.tagLink}
+            editTodo={this.editTodo}
+            handleDelete={this.handleDelete}
+            onDeleteTodo={this.onChangeTodoList}
+            reorderList={this.reorderList}
+            reorderTodo={this.reorderTodo}
+          />
+        ))}
+        <BigCalendar
+          events={events}
+          startAccessor="suruvayo"
+          endAccessor="sakkyo"
         />
-        <BigCalendar events={events} startAccessor="suruvayo" endAccessor="sakkyo" />
         <ReactPaginate
           previousLabel={'previous'}
           nextLabel={'next'}
@@ -212,4 +234,5 @@ const mapStateToProps = (state) => {
   return state;
 };
 const todoApp = connect(mapStateToProps)(Todo);
-export default todoApp;
+// export default todoApp;
+export default DragDropContext(HTML5Backend)(todoApp);
